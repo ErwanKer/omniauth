@@ -232,6 +232,7 @@ module OmniAuth
       @env['omniauth.origin'] = session.delete('omniauth.origin')
       @env['omniauth.origin'] = nil if env['omniauth.origin'] == ''
       @env['omniauth.params'] = session.delete('omniauth.params') || {}
+      log :info, @env.to_s
       OmniAuth.config.before_callback_phase.call(@env) if OmniAuth.config.before_callback_phase
       callback_phase
     end
@@ -342,6 +343,7 @@ module OmniAuth
     end
 
     def auth_hash
+      byebug
       hash = AuthHash.new(:provider => name, :uid => uid)
       hash.info = info unless skip_info?
       hash.credentials = credentials if credentials
